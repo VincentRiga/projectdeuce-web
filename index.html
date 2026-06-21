@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project Deuce — Build. Destroy. Capture.</title>
+<meta name="description" content="Project Deuce — a free, self-hostable voxel build-and-shoot FPS. Class-based combat on a fully destructible battlefield." />
+<style>
+  :root{
+    --dirt:#8a6d3b; --dirt-dark:#5e4a28; --grass:#5a7d3a; --stone:#8f8d84;
+    --stone-light:#c9c6ba; --sky:#cfe2f3; --ink:#0f0c08; --ink-2:#1a150e;
+    --paper:#efe7d6; --brass:#c9a14a; --brass-bright:#e7c574; --blood:#9e3b2e;
+    --green:#4fb070; --blue:#4f86c6;
+    --panel:#211a12; --panel-2:#2c2317; --line:#473826;
+    --maxw:1180px;
+    --display:"Arial Black",Impact,system-ui,sans-serif;
+    --body:system-ui,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body); color:var(--paper); line-height:1.65;
+    background:var(--ink);
+    background-image:
+      radial-gradient(1200px 600px at 70% -10%, rgba(201,161,74,.10), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 2px, transparent 2px 4px);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-family:var(--display);letter-spacing:.5px;line-height:1.04;text-transform:uppercase}
+  h2{font-size:clamp(1.6rem,3.5vw,2.6rem);color:var(--paper);margin-bottom:6px}
+  .eyebrow{font-family:var(--display);font-size:.78rem;letter-spacing:3px;color:var(--brass);text-transform:uppercase}
+  a{color:var(--brass-bright);text-decoration:none}
+  section{padding:74px 0;border-top:1px solid var(--line)}
+  .lead{color:var(--stone-light);max-width:62ch;font-size:1.05rem}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(15,12,8,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header.nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
+  .brand{font-family:var(--display);font-size:1.05rem;letter-spacing:1px;color:var(--paper)}
+  .brand b{color:var(--brass)}
+  header.nav nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+  header.nav nav a{color:var(--stone-light);font-size:.9rem;padding:8px 12px;border-radius:4px}
+  header.nav nav a:hover{color:var(--paper);background:var(--panel)}
+
+  /* ---- hero ---- */
+  .hero{position:relative;overflow:hidden;border-top:none;text-align:center;padding:96px 0 86px}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.5;
+    background-image:linear-gradient(transparent 0 30px, rgba(0,0,0,.25) 30px 32px),
+                     linear-gradient(90deg, transparent 0 30px, rgba(0,0,0,.25) 30px 32px);
+    background-size:32px 32px;
+    mask-image:radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);}
+  .hero .wrap{position:relative;z-index:1}
+  .hero h1{font-size:clamp(2.8rem,9vw,6.4rem);color:var(--paper);text-shadow:0 4px 0 var(--dirt-dark),0 6px 14px rgba(0,0,0,.5)}
+  .hero h1 .d{color:var(--brass)}
+  .tagline{margin:14px auto 0;font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--stone-light);max-width:48ch}
+  .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{font-family:var(--display);font-size:.92rem;letter-spacing:1px;text-transform:uppercase;
+    padding:14px 26px;border:2px solid var(--brass);color:var(--ink);background:var(--brass);
+    border-radius:5px;cursor:pointer;transition:transform .08s, background .15s, box-shadow .15s;
+    box-shadow:0 4px 0 var(--dirt-dark)}
+  .btn:hover{background:var(--brass-bright);transform:translateY(-1px)}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--dirt-dark)}
+  .btn.ghost{background:transparent;color:var(--brass-bright);box-shadow:none}
+  .btn.ghost:hover{background:var(--panel)}
+  .hero .note{margin-top:18px;font-size:.85rem;color:var(--stone)}
+
+  /* ---- features ---- */
+  .grid{display:grid;gap:16px}
+  .features .grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:30px}
+  .card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:8px;padding:20px}
+  .feature h3{font-size:1rem;color:var(--brass-bright);margin-bottom:6px;letter-spacing:.5px}
+  .feature p{color:var(--stone-light);font-size:.92rem}
+
+  /* ---- tabs / wiki ---- */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 28px}
+  .tab{font-family:var(--display);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+    padding:9px 15px;border:1px solid var(--line);border-radius:5px;background:var(--panel);
+    color:var(--stone-light);cursor:pointer}
+  .tab[aria-selected="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* classes */
+  .classes{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .cls-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px}
+  .cls-head h3{font-size:1.2rem;color:var(--paper)}
+  .pill{font-size:.7rem;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;
+    background:var(--dirt-dark);color:var(--brass-bright);font-family:var(--display)}
+  .cls .role{color:var(--stone-light);font-size:.88rem;min-height:2.4em;margin-bottom:12px}
+  .stat{display:grid;grid-template-columns:84px 1fr 34px;align-items:center;gap:8px;font-size:.8rem;margin:5px 0;color:var(--stone-light)}
+  .bar{height:8px;background:#000;border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--grass),var(--brass))}
+  .loadout{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:.74rem;padding:4px 9px;border:1px solid var(--line);border-radius:20px;background:#000;color:var(--stone-light)}
+
+  /* table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:640px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-family:var(--display);font-size:.74rem;letter-spacing:1px;text-transform:uppercase;color:var(--brass);background:var(--ink-2);position:sticky;top:60px}
+  tbody tr:hover{background:var(--panel)}
+  td.num{font-variant-numeric:tabular-nums;color:var(--paper)}
+  .tag-classic{color:var(--brass-bright);font-size:.7rem;border:1px solid var(--brass);border-radius:4px;padding:1px 6px;margin-left:6px}
+
+  /* modes / structures / maps */
+  .modes{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .mode h3{font-size:1.05rem;color:var(--brass-bright);margin-bottom:4px}
+  .mode .obj{color:var(--stone-light);font-size:.9rem}
+  .mapgroup{margin-top:22px}
+  .mapgroup h4{font-family:var(--display);font-size:.8rem;letter-spacing:1px;color:var(--brass);text-transform:uppercase;margin-bottom:8px}
+  .maplist{display:flex;flex-wrap:wrap;gap:8px}
+  .maptile{padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);font-size:.85rem}
+
+  /* host */
+  .host-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:24px}
+  @media(max-width:760px){.host-grid{grid-template-columns:1fr}}
+  pre{background:#000;border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;
+    font-family:ui-monospace,Consolas,monospace;font-size:.84rem;color:var(--stone-light)}
+  pre .c{color:var(--brass-bright)}
+  ol.steps{margin-left:18px;color:var(--stone-light)}
+  ol.steps li{margin:8px 0}
+
+  /* download */
+  .dlgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:28px}
+  .dl{display:flex;flex-direction:column;gap:10px}
+  .dl-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .dl-head h3{font-size:1.05rem;color:var(--paper)}
+  .dl p{color:var(--stone-light);font-size:.9rem;flex:1}
+  .dl .meta{font-family:ui-monospace,Consolas,monospace;font-size:.76rem;color:var(--stone)}
+  .dl .btn{align-self:flex-start;margin-top:4px;padding:10px 18px;font-size:.82rem}
+
+  /* servers */
+  .srv-tools{display:flex;align-items:center;gap:16px;margin:18px 0 12px}
+  .srv-tools .btn{padding:9px 16px;font-size:.8rem}
+  .srv-filter{font-size:.85rem;color:var(--stone-light);display:flex;align-items:center;gap:6px;cursor:pointer}
+  #serverTable td{vertical-align:middle}
+  .srv-msg{color:var(--stone);text-align:center;padding:22px}
+  .players-cell{font-variant-numeric:tabular-nums;color:var(--paper)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;background:var(--green);vertical-align:middle}
+  .dot.full{background:var(--blood)}
+  .addr{font-family:ui-monospace,Consolas,monospace;font-size:.8rem;color:var(--stone-light)}
+  .lock{color:var(--brass-bright);margin-left:6px;font-size:.78rem}
+  .badge-static,.badge-proc{font-size:.66rem;letter-spacing:.5px;text-transform:uppercase;padding:1px 6px;border-radius:4px;margin-left:6px}
+  .badge-static{color:var(--green);border:1px solid var(--green)}
+  .badge-proc{color:var(--stone);border:1px solid var(--line)}
+  .joinbtn{font-family:var(--display);font-size:.72rem;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;border:1px solid var(--brass);border-radius:4px;color:var(--brass-bright);background:transparent;cursor:pointer}
+  .joinbtn:hover{background:var(--brass);color:var(--ink)}
+
+  /* news */
+  .newsgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:28px}
+  .news-item .news-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .news-item time{font-family:ui-monospace,Consolas,monospace;font-size:.78rem;color:var(--stone)}
+  .news-item h3{font-size:1rem;color:var(--paper);margin-bottom:6px}
+  .news-item p{color:var(--stone-light);font-size:.9rem}
+  .ntag{font-family:var(--display);font-size:.66rem;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:var(--dirt-dark);color:var(--brass-bright)}
+
+  /* coming-soon disabled CTA */
+  .btn.disabled{background:var(--panel);color:var(--stone);border-color:var(--line);box-shadow:none;cursor:not-allowed}
+  .btn.disabled:hover{background:var(--panel);transform:none}
+
+  /* gallery */
+  .shotgrid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:28px}
+  .shot{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#000}
+  .shot img{display:block;width:100%;height:auto}
+  .shot figcaption{padding:10px 14px;font-size:.85rem;color:var(--stone-light)}
+
+  footer{padding:40px 0;border-top:1px solid var(--line);color:var(--stone);font-size:.85rem;text-align:center}
+  .muted{color:var(--stone)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <span class="brand">PROJECT&nbsp;<b>DEUCE</b></span>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#download">Get it</a>
+      <a href="#wiki">Wiki</a>
+      <a href="#host">Host</a>
+      <a href="#community">Community</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Free · Open · Self-hostable</p>
+    <h1>Project <span class="d">Deuce</span></h1>
+    <p class="tagline">Build. Destroy. Capture. — a class-based voxel FPS on a fully destructible battlefield, that you can host yourself.</p>
+    <div class="ctas">
+      <a class="btn" href="https://github.com/VincentRiga/ProjectDeuce">View on GitHub</a>
+      <a class="btn ghost" href="#download">Get the game</a>
+      <a class="btn ghost" href="#host">Host a server</a>
+    </div>
+    <p class="note">Open source · self-hostable · built in TypeScript + Three.js</p>
+  </div>
+</section>
+
+<section id="features" class="features wrap" style="border-top:none">
+  <p class="eyebrow">Why Deuce</p>
+  <h2>One toolset. Two jobs. Total destruction.</h2>
+  <div class="grid" id="featureGrid"></div>
+</section>
+
+<section id="download" class="wrap">
+  <p class="eyebrow">Get in</p>
+  <h2>Get the game</h2>
+  <p class="lead">Open source and self-hostable. A hosted browser build is on the way — for now, build and run it yourself from source.</p>
+  <div class="grid dlgrid" id="downloadGrid"></div>
+</section>
+
+<section id="gallery" class="wrap" hidden>
+  <p class="eyebrow">In game</p>
+  <h2>Screenshots</h2>
+  <p class="lead">Real captures from the engine.</p>
+  <div class="grid shotgrid" id="shotGrid"></div>
+</section>
+
+<section id="wiki" class="wrap">
+  <p class="eyebrow">Field manual</p>
+  <h2>The Wiki</h2>
+  <p class="lead">Every class, weapon, mode, map and structure — the full roster.</p>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div id="panels">
+    <div class="panel active" data-panel="classes"><div class="grid classes" id="classGrid"></div></div>
+    <div class="panel" data-panel="weapons">
+      <div class="tablewrap"><table id="weaponTable"><thead><tr>
+        <th>Weapon</th><th>Class</th><th>Head</th><th>Body</th><th>Limb</th><th>Rate</th><th>Mag / Total</th><th>Reload</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel" data-panel="modes"><div class="grid modes" id="modeGrid"></div></div>
+    <div class="panel" data-panel="maps"><div id="mapWrap"></div></div>
+    <div class="panel" data-panel="structures">
+      <div class="tablewrap"><table id="structTable"><thead><tr>
+        <th>Structure</th><th>Class</th><th>Cost</th><th>Strength</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel" data-panel="scoring"><div class="grid modes" id="scoreGrid"></div></div>
+  </div>
+</section>
+
+<section id="host" class="wrap">
+  <p class="eyebrow">Your server, your rules</p>
+  <h2>Host it yourself</h2>
+  <p class="lead">Deuce is built to be self-hosted. Run a dedicated server on your own machine; friends join by IP, and flip <code>discovery=on</code> in <code>server.properties</code> to list it publicly.</p>
+  <div class="host-grid">
+    <ol class="steps">
+      <li>Clone the repo and run <code>npm install</code>, then <code>npm run play</code>.</li>
+      <li>Edit <code>server.properties</code> — name, mode, map, bots per team, discovery.</li>
+      <li>Forward the port on your router (single port serves client + game).</li>
+      <li>Share your IP so friends can join directly.</li>
+    </ol>
+    <div>
+      <pre><span class="c"># server.properties</span>
+name=My Deuce Server
+mode=ctf
+map=arena
+bots_per_team=10
+discovery=off
+max_players=32</pre>
+    </div>
+  </div>
+</section>
+
+<section id="community" class="wrap">
+  <p class="eyebrow">Join up</p>
+  <h2>Community</h2>
+  <p class="lead">Deuce is free, open source and community-run. Clone it, host a server, build something.</p>
+  <div class="ctas" style="justify-content:flex-start;margin-top:22px">
+    <a class="btn ghost" href="https://github.com/VincentRiga/ProjectDeuce">GitHub</a>
+    <a class="btn ghost" href="https://github.com/VincentRiga/ProjectDeuce/issues">Issues</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    PROJECT DEUCE · a free voxel build-and-shoot FPS<br>
+    <span class="muted">Fan project · original art &amp; code · not affiliated with the original Ace of Spades.</span>
+  </div>
+</footer>
+
+<script type="module" src="./js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "projectdeuce-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Project Deuce — public game website (landing, get-it, wiki, host).",
+  "type": "module",
+  "scripts": {
+    "dev": "node serve.mjs",
+    "serve": "node serve.mjs",
+    "start": "node serve.mjs",
+    "build": "node -e \"['index.html','js/site.js','data/gamedata.js'].forEach(f=>{if(!require('fs').existsSync(f))throw new Error('missing '+f)});console.log('[deuce-web] static site OK')\""
+  },
+  "files": [
+    "index.html",
+    "js/",
+    "data/",
+    "img/",
+    "serve.mjs"
+  ]
+}
