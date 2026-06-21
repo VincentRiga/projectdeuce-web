@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Project Deuce — Build. Destroy. Capture.</title>
 <meta name="description" content="Project Deuce — a free, self-hostable voxel build-and-shoot FPS. Class-based combat on a fully destructible battlefield." />
+
+<link rel="icon" href="img/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+<meta name="theme-color" content="#0f0c08" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Project Deuce" />
+<meta property="og:title" content="Project Deuce — Build. Destroy. Capture." />
+<meta property="og:description" content="A free, open-source, self-hostable class-based voxel build-and-shoot FPS." />
+<meta property="og:url" content="https://projectdeuce.com/" />
+<meta property="og:image" content="https://projectdeuce.com/img/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Project Deuce — Build. Destroy. Capture." />
+<meta name="twitter:description" content="A free, open-source, self-hostable class-based voxel build-and-shoot FPS." />
+<meta name="twitter:image" content="https://projectdeuce.com/img/og.jpg" />
 <style>
   :root{
     --dirt:#8a6d3b; --dirt-dark:#5e4a28; --grass:#5a7d3a; --stone:#8f8d84;
@@ -37,22 +54,23 @@
   /* ---- nav ---- */
   header.nav{position:sticky;top:0;z-index:50;background:rgba(15,12,8,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   header.nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
-  .brand{font-family:var(--display);font-size:1.05rem;letter-spacing:1px;color:var(--paper)}
-  .brand b{color:var(--brass)}
+  .brand{display:flex;align-items:center;height:42px}
+  .brand img{height:34px;width:auto;display:block}
   header.nav nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
   header.nav nav a{color:var(--stone-light);font-size:.9rem;padding:8px 12px;border-radius:4px}
   header.nav nav a:hover{color:var(--paper);background:var(--panel)}
 
   /* ---- hero ---- */
-  .hero{position:relative;overflow:hidden;border-top:none;text-align:center;padding:96px 0 86px}
-  .hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.5;
-    background-image:linear-gradient(transparent 0 30px, rgba(0,0,0,.25) 30px 32px),
-                     linear-gradient(90deg, transparent 0 30px, rgba(0,0,0,.25) 30px 32px);
-    background-size:32px 32px;
-    mask-image:radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);}
+  .hero{position:relative;overflow:hidden;border-top:none;text-align:center;padding:96px 0 86px;
+    background:#0b0906 url("img/hero.webp") center/cover no-repeat}
+  /* dark scrim so the brand + copy stay legible over the photo */
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(180deg, rgba(11,9,6,.55) 0%, rgba(11,9,6,.72) 60%, var(--ink) 100%);}
   .hero .wrap{position:relative;z-index:1}
-  .hero h1{font-size:clamp(2.8rem,9vw,6.4rem);color:var(--paper);text-shadow:0 4px 0 var(--dirt-dark),0 6px 14px rgba(0,0,0,.5)}
-  .hero h1 .d{color:var(--brass)}
+  .hero-wordmark{display:block;margin:0 auto;width:min(560px,82vw);height:auto;
+    filter:drop-shadow(0 6px 16px rgba(0,0,0,.55))}
+  .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0}
   .tagline{margin:14px auto 0;font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--stone-light);max-width:48ch}
   .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
   .btn{font-family:var(--display);font-size:.92rem;letter-spacing:1px;text-transform:uppercase;
@@ -173,9 +191,11 @@
 </head>
 <body>
 
-<header class="nav">
+<header class="nav" id="top">
   <div class="wrap">
-    <span class="brand">PROJECT&nbsp;<b>DEUCE</b></span>
+    <a class="brand" href="#top" aria-label="Project Deuce home">
+      <img src="img/logo.webp" width="160" height="42" alt="Project Deuce" />
+    </a>
     <nav>
       <a href="#features">Features</a>
       <a href="#download">Get it</a>
@@ -189,7 +209,9 @@
 <section class="hero">
   <div class="wrap">
     <p class="eyebrow">Free · Open · Self-hostable</p>
-    <h1>Project <span class="d">Deuce</span></h1>
+    <h1 class="visually-hidden">Project Deuce</h1>
+    <img class="hero-wordmark" src="img/wordmark.webp" width="560" height="195"
+         alt="Project Deuce" fetchpriority="high" decoding="async" />
     <p class="tagline">Build. Destroy. Capture. — a class-based voxel FPS on a fully destructible battlefield, that you can host yourself.</p>
     <div class="ctas">
       <a class="btn" href="https://github.com/VincentRiga/ProjectDeuce">View on GitHub</a>
