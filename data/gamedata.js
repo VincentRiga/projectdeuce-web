@@ -8,7 +8,7 @@ export const DATA = {
     { t: "Ten real game modes", d: "CTF, Classic CTF, TDM, Territory Control, Babel, Diamond Mine, Demolition, Zombie, VIP, Occupation — full rules & win conditions." },
     { t: "Voxel arsenal", d: "Spades, rifles, SMGs, shotguns, snipers, RPGs, drill cannons — voxel weapons plus new modelled gun set." },
     { t: "Procedural worlds", d: "Each match world is generated from a seed: terrain, roads, districts, buildings, vehicles and vegetation." },
-    { t: "Free & low-spec", d: "Plays in any modern browser on modest hardware. No install." },
+    { t: "Runs almost anywhere", d: "Plays in any modern browser on modest hardware. No install." },
   ],
 
   // stamina (0–200) · jump (1–4) · mobility (1–4)
@@ -26,13 +26,13 @@ export const DATA = {
       role: "Fastest runner and highest jumper; a headshot threatens any class.",
       loadout: ["Pickaxe / Combat Knife", "Bolt-Action / Semi-Auto Rifle", "Pistol", "Landmine"] },
     { name: "Deuce", classic: true, stamina: 100, jump: 1, mobility: 1, blocks: "25 / 100",
-      role: "The Classic Ace of Spades soldier — plays in Classic CTF.",
+      role: "The classic rifleman: minimal kit, one trusty rifle. Plays Classic CTF.",
       loadout: ["Spade", "Classic Rifle / SMG / Shotgun", "Grenade"] },
     { name: "Zombie", special: true, stamina: 200, jump: 4, mobility: 4, blocks: "2500",
       role: "The infected — only its hands, but fast, durable and relentless.",
       loadout: ["Zombie Hand", "Zombie structures"] },
     { name: "Gangster", special: true, stamina: 100, jump: 2, mobility: 2, blocks: "400 / 1200",
-      role: "Valentine's DLC mafia class.",
+      role: "Mafia bruiser with a tommy gun, revolver and molotovs.",
       loadout: ["Crowbar", "Tommy Gun", "Snub Revolver", "Molotov"] },
   ],
 
@@ -109,19 +109,22 @@ export const DATA = {
 
   tagline: "Dig in · Build up · Take the hill",
 
-  // ---- Play. The standalone client is NOT published yet → no fake download.
-  // For now you play in the browser on the OFFICIAL servers we host. ----
-  play: {
-    url: "https://play.projectdeuce.com",
-    blurb: "Play instantly in your browser on the official Project Deuce servers. No install, no account required.",
+  // Links. null = not live yet → rendered as a disabled "Soon" control, never a
+  // dead href. Set the url here the moment it goes live and the button activates.
+  links: {
+    play: null,                                       // browser client — not deployed yet
+    discord: null,                                    // invite URL — pending
+    github: "https://github.com/VincentRiga/ProjectDeuce",
   },
+
+  // ---- Play. The browser client is not deployed yet → no fake link. ----
   download: [
-    { name: "Play in browser", tag: "Live", href: "https://play.projectdeuce.com",
-      blurb: "Jump straight into a match on an official server — runs in any modern browser.",
-      meta: "WebGL · no install · official servers" },
+    { name: "Browser client", tag: "Coming soon", href: null,
+      blurb: "Play in the browser on the official servers. The client is being readied — not live yet.",
+      meta: "WebGL · no install" },
     { name: "Standalone client", tag: "Coming soon", href: null,
-      blurb: "A downloadable standalone client is in the works. Not public yet — play in the browser for now.",
-      meta: "Windows / Linux / macOS · TBA" },
+      blurb: "A downloadable desktop client is in the works. Not public yet.",
+      meta: "Windows / Linux / macOS" },
   ],
 
   // ---- Procedural worlds (worldgen pipeline: terrain → roads → POI → placement). ----

@@ -1,7 +1,7 @@
 # projectdeuce-web
 
-Public website for **Project Deuce** — a free, open-source, self-hostable class-based
-voxel build-and-shoot FPS (TypeScript + Three.js).
+Public website for **Project Deuce**, a class-based voxel FPS on a fully destructible,
+procedurally generated battlefield (TypeScript + Three.js).
 
 Static site, zero build step, zero dependencies. All page content is data-driven from
 [`data/gamedata.js`](data/gamedata.js) and rendered by [`js/site.js`](js/site.js).
@@ -20,7 +20,8 @@ npm run build     # validates the static files exist
 ## Content policy
 
 Only real, shipped content. No mock server lists, no fabricated stats/news, and no
-download button for an unreleased build. Screenshots in the gallery must be **real**
+play/download button for an unreleased build (links without a live URL render as a
+disabled "Soon" control, never a dead href). Screenshots in the gallery must be **real**
 captures from the engine — drop image files into `img/` and add entries to
 `DATA.shots` in `data/gamedata.js`; the gallery section stays hidden while that array
 is empty.
