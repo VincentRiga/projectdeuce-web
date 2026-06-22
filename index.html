@@ -179,6 +179,21 @@
   .btn.disabled{background:var(--panel);color:var(--stone);border-color:var(--line);box-shadow:none;cursor:not-allowed}
   .btn.disabled:hover{background:var(--panel);transform:none}
 
+  /* hero motto */
+  .tagline-motto{font-family:var(--display);text-transform:uppercase;letter-spacing:2px;
+    color:var(--brass-bright);font-size:clamp(1rem,2.6vw,1.5rem);margin-top:18px}
+
+  /* procedural */
+  .procgrid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:28px}
+  .proc h3{font-size:1rem;color:var(--brass-bright);margin-bottom:6px;letter-spacing:.5px}
+  .proc p{color:var(--stone-light);font-size:.92rem}
+
+  /* credits */
+  .creditlist{list-style:none;margin-top:20px;display:grid;gap:10px}
+  .creditlist li{color:var(--stone-light);font-size:.92rem}
+  .creditlist .lic{color:var(--brass);font-family:var(--display);font-size:.7rem;letter-spacing:1px;
+    text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:2px 7px;margin-left:6px}
+
   /* gallery */
   .shotgrid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:28px}
   .shot{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#000}
@@ -198,9 +213,10 @@
     </a>
     <nav>
       <a href="#features">Features</a>
-      <a href="#download">Get it</a>
+      <a href="#download">Play</a>
+      <a href="#procedural">Worlds</a>
       <a href="#wiki">Wiki</a>
-      <a href="#host">Host</a>
+      <a href="#host">Servers</a>
       <a href="#community">Community</a>
     </nav>
   </div>
@@ -212,13 +228,14 @@
     <h1 class="visually-hidden">Project Deuce</h1>
     <img class="hero-wordmark" src="img/wordmark.webp" width="560" height="195"
          alt="Project Deuce" fetchpriority="high" decoding="async" />
-    <p class="tagline">Build. Destroy. Capture. — a class-based voxel FPS on a fully destructible battlefield, that you can host yourself.</p>
+    <p class="tagline tagline-motto">Dig in · Build up · Take the hill</p>
+    <p class="tagline">A class-based voxel FPS on a fully destructible, procedurally generated battlefield.</p>
     <div class="ctas">
-      <a class="btn" href="https://github.com/VincentRiga/ProjectDeuce">View on GitHub</a>
-      <a class="btn ghost" href="#download">Get the game</a>
-      <a class="btn ghost" href="#host">Host a server</a>
+      <a class="btn" href="https://play.projectdeuce.com">Play now</a>
+      <a class="btn ghost" href="#procedural">How it works</a>
+      <a class="btn ghost" href="https://github.com/VincentRiga/ProjectDeuce">GitHub</a>
     </div>
-    <p class="note">Open source · self-hostable · built in TypeScript + Three.js</p>
+    <p class="note">Play free in your browser on the official servers · no install</p>
   </div>
 </section>
 
@@ -230,9 +247,16 @@
 
 <section id="download" class="wrap">
   <p class="eyebrow">Get in</p>
-  <h2>Get the game</h2>
-  <p class="lead">Open source and self-hostable. A hosted browser build is on the way — for now, build and run it yourself from source.</p>
+  <h2>Play</h2>
+  <p class="lead">Play free in your browser on the official servers. A standalone downloadable client is coming later — there's no public download yet.</p>
   <div class="grid dlgrid" id="downloadGrid"></div>
+</section>
+
+<section id="procedural" class="wrap">
+  <p class="eyebrow">Procedural worlds</p>
+  <h2>A new battlefield every seed</h2>
+  <p class="lead" id="procIntro"></p>
+  <div class="grid procgrid" id="procGrid"></div>
 </section>
 
 <section id="gallery" class="wrap" hidden>
@@ -266,42 +290,36 @@
 </section>
 
 <section id="host" class="wrap">
-  <p class="eyebrow">Your server, your rules</p>
-  <h2>Host it yourself</h2>
-  <p class="lead">Deuce is built to be self-hosted. Run a dedicated server on your own machine; friends join by IP, and flip <code>discovery=on</code> in <code>server.properties</code> to list it publicly.</p>
-  <div class="host-grid">
-    <ol class="steps">
-      <li>Clone the repo and run <code>npm install</code>, then <code>npm run play</code>.</li>
-      <li>Edit <code>server.properties</code> — name, mode, map, bots per team, discovery.</li>
-      <li>Forward the port on your router (single port serves client + game).</li>
-      <li>Share your IP so friends can join directly.</li>
-    </ol>
-    <div>
-      <pre><span class="c"># server.properties</span>
-name=My Deuce Server
-mode=ctf
-map=arena
-bots_per_team=10
-discovery=off
-max_players=32</pre>
-    </div>
+  <p class="eyebrow">Where you play</p>
+  <h2>Official servers</h2>
+  <p class="lead" id="serverNote"></p>
+  <div class="ctas" style="justify-content:flex-start;margin-top:22px">
+    <a class="btn" href="https://play.projectdeuce.com">Play on an official server</a>
   </div>
 </section>
 
 <section id="community" class="wrap">
   <p class="eyebrow">Join up</p>
   <h2>Community</h2>
-  <p class="lead">Deuce is free, open source and community-run. Clone it, host a server, build something.</p>
+  <p class="lead">Project Deuce is free and built in the open. Follow development, file bugs, or read the code.</p>
   <div class="ctas" style="justify-content:flex-start;margin-top:22px">
     <a class="btn ghost" href="https://github.com/VincentRiga/ProjectDeuce">GitHub</a>
     <a class="btn ghost" href="https://github.com/VincentRiga/ProjectDeuce/issues">Issues</a>
   </div>
 </section>
 
+<section id="credits" class="wrap">
+  <p class="eyebrow">Credits</p>
+  <h2>Credits &amp; licenses</h2>
+  <p class="lead">Third-party assets used under their licenses.</p>
+  <ul class="creditlist" id="creditList"></ul>
+</section>
+
 <footer>
   <div class="wrap">
     PROJECT DEUCE · a free voxel build-and-shoot FPS<br>
-    <span class="muted">Fan project · original art &amp; code · not affiliated with the original Ace of Spades.</span>
+    <span class="muted">Fan project · original art &amp; code · not affiliated with the original Ace of Spades.</span><br>
+    <span class="muted" id="footCredits"></span>
   </div>
 </footer>
 

@@ -84,13 +84,45 @@ DATA.download.forEach(d => {
   const cta = d.href
     ? `<a class="btn" href="${d.href}">Get it</a>`
     : `<span class="btn disabled" aria-disabled="true">Coming soon</span>`;
+  const label = d.href ? "Play now" : "Coming soon";
+  const cta2 = d.href ? `<a class="btn" href="${d.href}">${label}</a>` : cta;
   c.innerHTML = `
     <div class="dl-head"><h3>${d.name}</h3><span class="pill">${d.tag}</span></div>
     <p>${d.blurb}</p>
     <span class="meta">${d.meta}</span>
-    ${cta}`;
+    ${cta2}`;
   dg.append(c);
 });
+
+/* ---- procedural worlds ---- */
+const proc = DATA.procedural;
+if (proc) {
+  $("#procIntro").textContent = proc.intro;
+  const pg = $("#procGrid");
+  proc.points.forEach(p => {
+    const c = el("div", "card proc");
+    c.append(el("h3", null, p.t), el("p", null, p.d));
+    pg.append(c);
+  });
+}
+
+/* ---- official servers note ---- */
+if (DATA.servers?.note) $("#serverNote").textContent = DATA.servers.note;
+
+/* ---- credits (CC-BY attribution must stay visible) ---- */
+const credits = Array.isArray(DATA.credits) ? DATA.credits : [];
+if (credits.length) {
+  const cl = $("#creditList");
+  credits.forEach(c => {
+    const li = el("li");
+    const name = c.href ? `<a href="${c.href}" target="_blank" rel="noopener">${c.what}</a>` : c.what;
+    li.innerHTML = `${name} by <b>${c.by}</b><span class="lic">${c.license}</span>`;
+    cl.append(li);
+  });
+  // compact footer line too
+  $("#footCredits").textContent = credits
+    .map(c => `${c.what} by ${c.by} — ${c.license}`).join(" · ");
+}
 
 /* ---- gallery (real screenshots only; hidden until shots exist) ---- */
 const shots = Array.isArray(DATA.shots) ? DATA.shots : [];

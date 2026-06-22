@@ -3,11 +3,11 @@
 
 export const DATA = {
   features: [
-    { t: "One toolset", d: "Build and shoot with the same kit — terrain is your weapon and your cover." },
-    { t: "Total destruction", d: "Every block is destructible and buildable, with real structural collapse." },
-    { t: "Class-based combat", d: "Miner, Engineer, Commando, Marksman — each with distinct stats and loadouts." },
-    { t: "A full mode roster", d: "CTF, Team Deathmatch, Zombie!, VIP, Demolition, Occupation, and more." },
-    { t: "Self-hostable servers", d: "Run your own dedicated server — free, scriptable, no gatekeepers." },
+    { t: "Fully destructible voxel FPS", d: "Every block breaks and builds — terrain is your weapon, your cover and your path." },
+    { t: "Classes & loadouts", d: "Commando, Miner, Engineer, Marksman — distinct stats, weapons and equipment per class." },
+    { t: "Ten real game modes", d: "CTF, Classic CTF, TDM, Territory Control, Babel, Diamond Mine, Demolition, Zombie, VIP, Occupation — full rules & win conditions." },
+    { t: "Voxel arsenal", d: "Spades, rifles, SMGs, shotguns, snipers, RPGs, drill cannons — voxel weapons plus new modelled gun set." },
+    { t: "Procedural worlds", d: "Each match world is generated from a seed: terrain, roads, districts, buildings, vehicles and vegetation." },
     { t: "Free & low-spec", d: "Plays in any modern browser on modest hardware. No install." },
   ],
 
@@ -107,15 +107,45 @@ export const DATA = {
     { a: "Suicide / team-change", p: "−100" },
   ],
 
-  // ---- Get in. No mock data: the standalone client is not published yet, so
-  // there is no working "download" — only the open source you can build/host. ----
+  tagline: "Dig in · Build up · Take the hill",
+
+  // ---- Play. The standalone client is NOT published yet → no fake download.
+  // For now you play in the browser on the OFFICIAL servers we host. ----
+  play: {
+    url: "https://play.projectdeuce.com",
+    blurb: "Play instantly in your browser on the official Project Deuce servers. No install, no account required.",
+  },
   download: [
-    { name: "Play in browser", tag: "Coming soon", href: null,
-      blurb: "A hosted browser build is on the way. For now you can build and run it yourself from source.",
-      meta: "WebGL · no install" },
-    { name: "Build from source", tag: "Open source", href: "https://github.com/VincentRiga/ProjectDeuce",
-      blurb: "Clone the monorepo — TypeScript + Three.js engine, shared constants, dedicated server — and run it locally.",
-      meta: "git clone · npm install · npm run play" },
+    { name: "Play in browser", tag: "Live", href: "https://play.projectdeuce.com",
+      blurb: "Jump straight into a match on an official server — runs in any modern browser.",
+      meta: "WebGL · no install · official servers" },
+    { name: "Standalone client", tag: "Coming soon", href: null,
+      blurb: "A downloadable standalone client is in the works. Not public yet — play in the browser for now.",
+      meta: "Windows / Linux / macOS · TBA" },
+  ],
+
+  // ---- Procedural worlds (worldgen pipeline: terrain → roads → POI → placement). ----
+  procedural: {
+    intro: "Most Project Deuce maps aren't hand-placed — they're generated. A seed drives the whole world, so a new seed means a brand-new battlefield, then every block of it is yours to dig, build and blow apart.",
+    points: [
+      { t: "Sculpted terrain", d: "Heightmap terrain with biomes — hills, water, cliffs and open ground." },
+      { t: "Road networks", d: "Connected roads thread the map and link the districts together." },
+      { t: "Districts & buildings", d: "Generated districts fill with enterable buildings, props and furniture." },
+      { t: "Vehicles & decor", d: "Vehicles, street decor and striped awnings scatter the streets." },
+      { t: "Vegetation", d: "Trees and vegetation dressed across the terrain by the placement phase." },
+      { t: "Fully destructible", d: "Every generated block is real voxel terrain — break it, build on it, tunnel through it." },
+    ],
+  },
+
+  // ---- Official servers (no user self-hosting yet; custom servers later). ----
+  servers: {
+    note: "Right now everyone plays together on the official servers we host. Custom and self-hosted servers are planned for later — for now, just hit Play.",
+  },
+
+  // ---- Credits (CC-BY 4.0 attribution is required and must stay visible). ----
+  credits: [
+    { what: "Voxel Gun Pack", by: "tatami11", license: "CC-BY 4.0",
+      href: "https://sketchfab.com/3d-models/voxel-gun-pack-d616eb9d7d9a493e896cad226473f59d" },
   ],
 
   // Real gameplay screenshots. Drop files into web img/ and add entries here;
