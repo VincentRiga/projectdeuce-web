@@ -1,14 +1,13 @@
 # projectdeuce-web
 
-Public website for **Project Deuce**, a class-based voxel FPS on a fully destructible,
-procedurally generated battlefield (TypeScript + Three.js).
+Public website for **Project Deuce**, a free-to-play voxel build-and-shoot FPS with fully
+destructible terrain and structural collapse. Windows only. Alpha.
 
 Static site, zero build step, zero dependencies. All page content is data-driven from
 [`data/gamedata.js`](data/gamedata.js) and rendered by [`js/site.js`](js/site.js).
 
-> The game itself lives in a separate repository:
-> [VincentRiga/ProjectDeuce](https://github.com/VincentRiga/ProjectDeuce). This repo is
-> the marketing/landing site only — no game code, no fake/live data.
+> The game lives in a separate, currently private repository. This repo is the public
+> site only — no game code, no live data.
 
 ## Run locally
 
@@ -19,31 +18,37 @@ npm run build     # validates the static files exist
 
 ## Content policy
 
-Only real, shipped content. No mock server lists, no fabricated stats/news, and no
-play/download button for an unreleased build (links without a live URL render as a
-disabled "Soon" control, never a dead href). Screenshots in the gallery must be **real**
-captures from the engine — drop image files into `img/` and add entries to
-`DATA.shots` in `data/gamedata.js`; the gallery section stays hidden while that array
-is empty.
+The site says only what is true in the game code right now. Concretely:
+
+- **No numbers that change between builds.** No damage tables, reload times, kill times,
+  class stats, structure costs, scoring values, hardware requirements. They rot into lies
+  within a week.
+- **No dead controls.** A link is either a real URL that was opened and verified, or it is
+  not on the page. Nothing renders as a disabled "Soon" button. If a destination does not
+  exist yet (Steam page, Discord, public repo) the page says so in plain text.
+- **No fake imagery.** The gallery renders only real captures from the *current* build.
+  No key art, no generated images, no old reference views presented as gameplay. While
+  `DATA.shots` is empty the gallery section stays hidden.
+- **Alpha is stated, not hidden.** Progress can be wiped and the game changes often; the
+  page says so.
+
+Every fact in `data/gamedata.js` was verified against the game repository on the date in
+its header comment. When the game changes, change the data file — nothing else.
 
 ### Adding real gameplay screenshots
 
-In the game repo ([ProjectDeuce](https://github.com/VincentRiga/ProjectDeuce)):
-
-```bash
-npm run play          # builds client + launches a local 10v10 bot server
-# open the printed URL in a foreground browser tab, join, capture frames
-```
-
-Save the captures into this repo's `img/`, then in `data/gamedata.js`:
+Capture from the current public build, save into `img/shots/`, then add entries to
+`DATA.shots` in `data/gamedata.js`:
 
 ```js
 shots: [
-  { src: "img/bigpine-ctf.jpg", alt: "CTF on Big Pine", caption: "Capture the Flag — Big Pine" },
+  { src: "img/shots/red_basin-1.webp", alt: "Red Basin, mid-match", caption: "Red Basin" },
 ],
 ```
 
+The gallery section and its nav link activate automatically.
+
 ## Deploy
 
-Hosted on Vercel as a static site (no framework). `vercel.json` sets clean URLs and
-basic security headers. Custom domain: **projectdeuce.com**.
+Hosted on Vercel as a static site (no framework). `vercel.json` sets clean URLs and basic
+security headers. Domain: **projectdeuce.com**.

@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Project Deuce — Dig in. Build up. Take the hill.</title>
-<meta name="description" content="Project Deuce is a class-based voxel FPS on a fully destructible, procedurally generated battlefield. Play in the browser on the official servers." />
+<meta name="description" content="Project Deuce is a free-to-play voxel build-and-shoot FPS with fully destructible terrain and structural collapse. Windows. Alpha. Coming to Steam." />
 
 <link rel="icon" href="img/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
@@ -13,14 +13,14 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Project Deuce" />
 <meta property="og:title" content="Project Deuce — Dig in. Build up. Take the hill." />
-<meta property="og:description" content="A class-based voxel FPS on a fully destructible, procedurally generated battlefield." />
+<meta property="og:description" content="A free-to-play voxel build-and-shoot FPS with fully destructible terrain and structural collapse. Windows. Alpha." />
 <meta property="og:url" content="https://projectdeuce.com/" />
 <meta property="og:image" content="https://projectdeuce.com/img/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Project Deuce — Dig in. Build up. Take the hill." />
-<meta name="twitter:description" content="A class-based voxel FPS on a fully destructible, procedurally generated battlefield." />
+<meta name="twitter:description" content="A free-to-play voxel build-and-shoot FPS with fully destructible terrain and structural collapse. Windows. Alpha." />
 <meta name="twitter:image" content="https://projectdeuce.com/img/og.jpg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,7 +39,7 @@
     --display:"Archivo Black",Impact,system-ui,sans-serif;
     --body:"Archivo",system-ui,"Segoe UI",sans-serif;
     --maxw:1200px;
-    --z-sticky:100; --z-overlay:200;
+    --z-sticky:100;
     --ease:cubic-bezier(.22,1,.36,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -50,15 +50,14 @@
     line-height:1.6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     overflow-x:hidden;
   }
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,5vw,40px)}
   a{color:var(--brass-bright);text-decoration:none}
   h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
   p{text-wrap:pretty}
-  section{position:relative;padding:clamp(64px,9vw,120px) 0}
+  section{position:relative;padding:clamp(56px,9vw,110px) 0}
   .section-head{max-width:60ch}
   .section-head h2{font-size:clamp(1.9rem,4.4vw,3.3rem);text-transform:uppercase}
   .section-head .sub{margin-top:16px;color:var(--ink-dim);font-size:clamp(1rem,1.4vw,1.18rem);max-width:62ch}
-  .rule{height:1px;background:var(--line);border:0}
 
   /* voxel block accent used sparingly as a brand mark */
   .blocks{display:inline-flex;gap:4px;vertical-align:middle}
@@ -79,36 +78,18 @@
   .nav-links a{color:var(--ink-dim);font-size:.92rem;font-weight:500;padding:9px 13px;border-radius:7px;
     transition:color .18s,background .18s}
   .nav-links a:hover{color:var(--ink);background:var(--panel)}
-  .nav-cta{display:flex;gap:10px;align-items:center}
+  .nav-links a[hidden]{display:none}
+  .nav-stage{margin-left:auto;font-family:var(--display);font-size:.62rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--brass-bright);border:1px solid var(--brass-deep);
+    padding:6px 10px;border-radius:6px;flex:none}
+  .nav-links + .nav-stage{margin-left:0}
   @media(max-width:880px){
     .nav-links{display:none}
     .nav .wrap{gap:12px}
-    .nav-cta .discord-link{display:none}   /* keep header lean; Discord lives in hero + footer */
   }
 
-  /* ---------- buttons ---------- */
-  .btn{font-family:var(--body);font-weight:700;font-size:.95rem;letter-spacing:.01em;
-    display:inline-flex;align-items:center;gap:9px;cursor:pointer;border:0;
-    padding:13px 22px;border-radius:9px;color:#13100a;background:var(--brass);
-    transition:transform .12s var(--ease),background .18s,box-shadow .18s;
-    box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 8px 22px -10px rgba(201,161,74,.7)}
-  .btn:hover{background:var(--brass-bright);transform:translateY(-2px)}
-  .btn:active{transform:translateY(0)}
-  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-2);box-shadow:none}
-  .btn.ghost:hover{background:var(--panel);border-color:var(--brass);color:var(--ink)}
-  .btn.sm{padding:9px 15px;font-size:.88rem;border-radius:8px}
-  .btn.discord{background:#5865F2;color:#fff;box-shadow:0 8px 22px -10px rgba(88,101,242,.8)}
-  .btn.discord:hover{background:#6b77f5}
-  .btn[aria-disabled="true"]{background:var(--panel-2);color:var(--muted);cursor:not-allowed;
-    box-shadow:none;border:1px solid var(--line)}
-  .btn[aria-disabled="true"]:hover{transform:none;background:var(--panel-2)}
-  .btn .soon{font-family:var(--display);font-size:.6rem;letter-spacing:.08em;
-    padding:2px 6px;border-radius:5px;background:rgba(255,255,255,.08);color:var(--brass-bright)}
-  .btn.discord .soon{color:#fff}
-  .ico{width:18px;height:18px;flex:none}
-
   /* ---------- hero ---------- */
-  .hero{min-height:clamp(560px,84vh,860px);display:grid;align-items:center;
+  .hero{min-height:clamp(520px,80vh,820px);display:grid;align-items:center;
     padding-top:48px;border-bottom:1px solid var(--line);overflow:hidden;isolation:isolate}
   .hero-bg{position:absolute;inset:0;z-index:-2;background:#0b0c10 url("img/hero.webp") center/cover no-repeat}
   .hero-veil{position:absolute;inset:0;z-index:-1;
@@ -121,7 +102,11 @@
   .motto{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;
     color:var(--brass-bright);font-size:clamp(.95rem,2.4vw,1.5rem)}
   .hero-sub{color:var(--ink-dim);font-size:clamp(1.05rem,1.7vw,1.32rem);max-width:54ch}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+  .status-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .status-item{font-family:var(--display);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:8px 13px;border-radius:8px;background:rgba(11,12,16,.7);border:1px solid var(--line-2);
+    color:var(--ink);backdrop-filter:blur(6px)}
+  .status-item:last-child{color:var(--brass-bright);border-color:var(--brass-deep)}
   .hero-note{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:10px}
   .anim-up{opacity:0;transform:translateY(16px);animation:up .7s var(--ease) forwards}
   .anim-up:nth-child(1){animation-delay:.02s}
@@ -155,110 +140,43 @@
     .feat,.feat:nth-child(n){grid-column:span 1}}
   @media(max-width:520px){.features-grid{grid-template-columns:1fr}}
 
-  /* ---------- procedural ---------- */
-  .proc-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4vw,56px);
-    margin-top:44px;align-items:center}
-  @media(max-width:900px){.proc-wrap{grid-template-columns:1fr}}
-  .proc-list{display:grid;gap:2px}
-  .proc-item{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:16px 0;
-    border-top:1px solid var(--line)}
-  .proc-item:last-child{border-bottom:1px solid var(--line)}
-  .proc-item .n{font-family:var(--display);font-size:.78rem;color:var(--brass);
-    width:30px;height:30px;border:1px solid var(--brass-deep);border-radius:8px;
-    display:grid;place-items:center}
-  .proc-item h3{font-family:var(--body);font-weight:700;font-size:1.04rem;margin-bottom:3px}
-  .proc-item p{color:var(--muted);font-size:.92rem}
-  .proc-figure{position:sticky;top:90px}
-  .proc-figure svg{width:100%;height:auto;display:block;border-radius:16px;
-    border:1px solid var(--line);background:radial-gradient(120% 120% at 30% 0%,var(--panel-2),var(--bg-2))}
-  .proc-cap{margin-top:12px;color:var(--muted);font-size:.84rem;text-align:center}
-
-  /* ---------- field manual (wiki) ---------- */
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:36px 0 26px}
-  .tab{font-family:var(--body);font-weight:600;font-size:.9rem;
-    padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--panel);
-    color:var(--ink-dim);cursor:pointer;transition:.18s}
-  .tab:hover{color:var(--ink);border-color:var(--line-2)}
-  .tab[aria-selected="true"]{background:var(--brass);color:#13100a;border-color:var(--brass);font-weight:700}
-  .panel{display:none}
-  .panel.active{display:block;animation:fade .3s var(--ease)}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.panel.active{animation:none}}
+  /* ---------- maps ---------- */
   .grid{display:grid;gap:14px}
-  .classes{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-  .cls{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
-    border-radius:14px;padding:22px}
-  .cls-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-  .cls-head h3{font-family:var(--body);font-weight:700;font-size:1.2rem}
-  .pill{font-family:var(--display);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
-    padding:4px 9px;border-radius:6px;background:var(--navy);color:var(--brass-bright);border:1px solid var(--navy-line)}
-  .cls .role{color:var(--ink-dim);font-size:.9rem;min-height:2.5em;margin-bottom:14px}
-  .stat{display:grid;grid-template-columns:78px 1fr 38px;align-items:center;gap:10px;font-size:.78rem;
-    margin:6px 0;color:var(--muted)}
-  .bar{height:7px;background:rgba(0,0,0,.45);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
-  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass-bright))}
-  .stat .num{color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
-  .loadout{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px}
-  .chip{font-size:.74rem;padding:5px 10px;border:1px solid var(--line);border-radius:999px;
-    background:rgba(0,0,0,.3);color:var(--ink-dim)}
-  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
-  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px}
-  th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line)}
-  th{font-family:var(--body);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
-    color:var(--brass);background:var(--bg-2)}
-  tbody tr:hover{background:var(--panel)}
-  tbody tr:last-child td{border-bottom:0}
-  td.num{font-variant-numeric:tabular-nums;color:var(--ink)}
-  .tag-classic{font-family:var(--display);font-size:.56rem;letter-spacing:.06em;color:var(--brass-bright);
-    border:1px solid var(--brass-deep);border-radius:5px;padding:2px 6px;margin-left:7px}
-  .modes{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
-  .mode{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-  .mode h3{font-family:var(--body);font-weight:700;font-size:1.05rem;color:var(--brass-bright);margin-bottom:5px}
-  .mode .obj{color:var(--ink-dim);font-size:.9rem}
-  .mapgroup{margin-top:8px}
-  .mapgroup+.mapgroup{margin-top:22px}
-  .mapgroup h4{font-family:var(--body);font-weight:700;font-size:.82rem;letter-spacing:.04em;
-    text-transform:uppercase;color:var(--brass);margin-bottom:10px}
-  .maplist{display:flex;flex-wrap:wrap;gap:8px}
-  .maptile{padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:.88rem}
-  .scoregrid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-  .scorecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
-    display:flex;align-items:baseline;gap:12px}
-  .scorecard b{font-family:var(--display);font-size:1.25rem}
-  .scorecard span{color:var(--ink-dim);font-size:.9rem}
+  .maps{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:36px}
+  .map{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;
+    display:flex;flex-direction:column;gap:6px;min-height:104px;
+    background-image:linear-gradient(135deg,rgba(201,161,74,.06),transparent 60%)}
+  .map h3{font-family:var(--body);font-weight:700;font-size:1.1rem;color:var(--ink)}
+  .map-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.74rem;
+    color:var(--muted);letter-spacing:.02em}
+  .map p{color:var(--ink-dim);font-size:.9rem;margin-top:6px}
+  .note{margin-top:20px;color:var(--muted);font-size:.9rem}
 
-  /* ---------- play / servers band ---------- */
-  .play{background:
+  /* ---------- modes ---------- */
+  .modes{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .mode-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+  .mode{padding:11px 18px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel);
+    font-weight:600;font-size:.95rem;color:var(--ink)}
+
+  /* ---------- servers + alpha (two-up band) ---------- */
+  .band{background:
       linear-gradient(180deg,var(--bg-2),var(--bg)),
-      radial-gradient(80% 120% at 50% -10%, rgba(201,161,74,.10), transparent 60%);
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .play-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
-  @media(max-width:900px){.play-grid{grid-template-columns:1fr}}
-  .dl{display:flex;flex-direction:column;gap:18px;margin-top:30px}
-  .dl-card{display:flex;gap:16px;align-items:flex-start;background:var(--panel);
-    border:1px solid var(--line);border-radius:14px;padding:18px 20px}
-  .dl-card .body{flex:1}
-  .dl-card .dl-head{display:flex;align-items:center;gap:10px;margin-bottom:5px}
-  .dl-card h3{font-family:var(--body);font-weight:700;font-size:1.05rem}
-  .dl-card p{color:var(--muted);font-size:.9rem}
-  .dl-card .meta{display:block;margin-top:8px;color:var(--muted);font-size:.78rem;letter-spacing:.02em}
-  .official{background:var(--navy);border:1px solid var(--navy-line);border-radius:16px;
-    padding:clamp(22px,3vw,32px)}
-  .official h3{font-family:var(--body);font-weight:700;font-size:1.25rem;margin-bottom:12px}
-  .official p{color:#c6d0e6;font-size:.98rem}
-  .official .badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;
+      radial-gradient(80% 120% at 50% -10%, rgba(201,161,74,.10), transparent 60%)}
+  .two-up{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);align-items:stretch}
+  @media(max-width:900px){.two-up{grid-template-columns:1fr}}
+  .card{border-radius:16px;padding:clamp(22px,3vw,32px);border:1px solid var(--line);background:var(--panel)}
+  .card h3{font-family:var(--body);font-weight:700;font-size:1.25rem;margin-bottom:12px}
+  .card p{color:var(--ink-dim);font-size:.98rem}
+  .card .badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;
     font-family:var(--display);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--green);border:1px solid color-mix(in srgb,var(--green) 40%,transparent);
-    padding:5px 11px;border-radius:999px}
-  .official .dot{width:7px;height:7px;border-radius:50%;background:var(--green);
-    box-shadow:0 0 0 0 rgba(95,208,129,.6);animation:pulse 2.4s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(95,208,129,.5)}70%{box-shadow:0 0 0 7px rgba(95,208,129,0)}100%{box-shadow:0 0 0 0 rgba(95,208,129,0)}}
-  @media (prefers-reduced-motion:reduce){.official .dot{animation:none}}
-
-  /* ---------- community ---------- */
-  .community{text-align:center}
-  .community .section-head{margin:0 auto}
-  .community .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+    padding:5px 11px;border-radius:999px;border:1px solid}
+  .card.servers .badge{color:var(--green);border-color:color-mix(in srgb,var(--green) 40%,transparent)}
+  .card.alpha{background:var(--navy);border-color:var(--navy-line)}
+  .card.alpha p,.card.alpha li{color:#c6d0e6}
+  .card.alpha .badge{color:var(--brass-bright);border-color:var(--brass-deep)}
+  .card.alpha ul{list-style:none;display:grid;gap:12px}
+  .card.alpha li{padding-left:22px;position:relative;font-size:.96rem}
+  .card.alpha li::before{content:"";position:absolute;left:0;top:.62em;width:9px;height:9px;border-radius:2px;background:var(--brass)}
 
   /* ---------- gallery (real shots only; hidden until present) ---------- */
   .shotgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:30px}
@@ -276,11 +194,10 @@
     text-transform:uppercase;color:var(--brass);margin-bottom:12px}
   .foot-col a,.foot-col span{display:block;color:var(--ink-dim);font-size:.9rem;margin:7px 0}
   .foot-col a:hover{color:var(--ink)}
+  .foot-col a[hidden]{display:none}
   .credits{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);
     display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
   .credits .lic{color:var(--muted);font-size:.82rem}
-  .credits .lic a{color:var(--ink-dim)}
-  .credits .lic a:hover{color:var(--brass-bright)}
   .credits .copy{color:var(--muted);font-size:.82rem}
 
   :focus-visible{outline:2px solid var(--brass-bright);outline-offset:3px;border-radius:4px}
@@ -294,19 +211,14 @@
       <img src="img/logo.webp" width="170" height="30" alt="Project Deuce" />
     </a>
     <nav class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#procedural">Worlds</a>
-      <a href="#manual">Field manual</a>
-      <a href="#play">Play</a>
-      <a href="#community">Community</a>
+      <a href="#game">Game</a>
+      <a href="#maps">Maps</a>
+      <a href="#modes">Modes</a>
+      <a href="#servers">Servers</a>
+      <a href="#alpha">Alpha</a>
+      <a href="#gallery" data-gallery-nav hidden>Screenshots</a>
     </nav>
-    <div class="nav-cta">
-      <a class="btn ghost sm discord-link" data-link="discord">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5c1.7.4 2.5.9 3.4 1.5a13.3 13.3 0 0 0-10-.4c-.4.1-.7.2-1 .4.9-.6 1.9-1.1 3.4-1.5L10.6 3a19.8 19.8 0 0 0-4.9 1.4C2.5 9.1 1.6 13.7 2 18.3a19.9 19.9 0 0 0 6 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0 0 12 0l.5.4c-.6.4-1.3.7-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.5-5.3-.8-9.9-4.1-13.9ZM9 15.3c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Zm6 0c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Z"/></svg>
-        <span class="label">Discord</span>
-      </a>
-      <a class="btn sm play-link" data-link="play"><span class="label">Play</span></a>
-    </div>
+    <span class="nav-stage" aria-label="Development stage">Alpha</span>
   </div>
 </header>
 
@@ -317,145 +229,58 @@
     <img class="hero-wordmark anim-up" src="img/wordmark.webp" width="620" height="216"
          alt="Project Deuce" fetchpriority="high" decoding="async" />
     <h1 class="motto anim-up">Dig in · Build up · Take the hill</h1>
-    <p class="hero-sub anim-up">A class-based voxel FPS on a fully destructible, procedurally generated battlefield. Mine it, build it, fight over every block.</p>
-    <div class="hero-cta anim-up">
-      <a class="btn play-link" data-link="play"><span class="label">Play</span></a>
-      <a class="btn discord ghost discord-link" data-link="discord">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5c1.7.4 2.5.9 3.4 1.5a13.3 13.3 0 0 0-10-.4c-.4.1-.7.2-1 .4.9-.6 1.9-1.1 3.4-1.5L10.6 3a19.8 19.8 0 0 0-4.9 1.4C2.5 9.1 1.6 13.7 2 18.3a19.9 19.9 0 0 0 6 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0 0 12 0l.5.4c-.6.4-1.3.7-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.5-5.3-.8-9.9-4.1-13.9ZM9 15.3c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Zm6 0c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Z"/></svg>
-        <span class="label">Join the Discord</span>
-      </a>
-    </div>
-    <p class="hero-note anim-up"><span class="blocks"><i></i><i></i><i></i></span> Browser play on the official servers · no install</p>
+    <p class="hero-sub anim-up" id="heroSummary"></p>
+    <div class="status-strip anim-up" id="statusStrip" aria-label="Platform and status"></div>
+    <p class="hero-note anim-up"><span class="blocks"><i></i><i></i><i></i></span> No public download yet. This page is the current state of the game.</p>
   </div>
 </section>
 
-<section id="features" class="wrap">
+<section id="game" class="wrap">
   <div class="section-head">
-    <h2>One kit. Dig, build, and shoot.</h2>
-    <p class="sub">Every block is real terrain you can mine, stack and blow apart. The map is your weapon, your cover and your way through.</p>
+    <h2>Dig, build, and shoot.</h2>
+    <p class="sub">Every block is real terrain you can mine, stack and blow apart — and what you build has to stand up on its own.</p>
   </div>
   <div class="features-grid" id="featureGrid"></div>
 </section>
 
-<section id="procedural" class="wrap">
+<section id="maps" class="wrap">
   <div class="section-head">
-    <h2>A new battlefield every seed</h2>
-    <p class="sub" id="procIntro"></p>
+    <h2>Maps</h2>
+    <p class="sub">The maps in the current rotation. Screenshots will be added when we have real captures from the current build — not before.</p>
   </div>
-  <div class="proc-wrap">
-    <div class="proc-list" id="procGrid"></div>
-    <figure class="proc-figure">
-      <svg viewBox="0 0 420 300" role="img" aria-label="Worldgen pipeline: seed becomes terrain, roads, districts, vehicles and vegetation, then a playable map.">
-        <defs>
-          <linearGradient id="g-terrain" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#3f6b3a"/><stop offset="1" stop-color="#2a4a28"/>
-          </linearGradient>
-          <linearGradient id="g-brass" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#7c601f"/><stop offset="1" stop-color="#ecc463"/>
-          </linearGradient>
-        </defs>
-        <!-- terrain steps (isometric voxel band) -->
-        <g stroke="#0b0c10" stroke-width="1.5">
-          <rect x="30" y="150" width="36" height="36" fill="url(#g-terrain)"/>
-          <rect x="66" y="132" width="36" height="54" fill="url(#g-terrain)"/>
-          <rect x="102" y="160" width="36" height="26" fill="#355f30"/>
-          <rect x="138" y="120" width="36" height="66" fill="url(#g-terrain)"/>
-          <rect x="174" y="150" width="36" height="36" fill="#355f30"/>
-          <rect x="210" y="140" width="36" height="46" fill="url(#g-terrain)"/>
-          <rect x="246" y="166" width="36" height="20" fill="#2f5470"/>
-          <rect x="282" y="138" width="36" height="48" fill="url(#g-terrain)"/>
-          <rect x="318" y="156" width="36" height="30" fill="#355f30"/>
-          <rect x="354" y="146" width="36" height="40" fill="url(#g-terrain)"/>
-        </g>
-        <!-- road with centre dashes -->
-        <rect x="30" y="186" width="360" height="18" fill="#23262e"/>
-        <g fill="#c9a14a"><rect x="48" y="194" width="20" height="3"/><rect x="92" y="194" width="20" height="3"/><rect x="136" y="194" width="20" height="3"/><rect x="180" y="194" width="20" height="3"/><rect x="224" y="194" width="20" height="3"/><rect x="268" y="194" width="20" height="3"/><rect x="312" y="194" width="20" height="3"/><rect x="356" y="194" width="20" height="3"/></g>
-        <!-- buildings -->
-        <g stroke="#0b0c10" stroke-width="1.5">
-          <rect x="64" y="92" width="40" height="58" fill="#454a57"/><rect x="72" y="100" width="10" height="10" fill="#ecc463"/><rect x="88" y="100" width="10" height="10" fill="#5b9bff"/><rect x="72" y="120" width="10" height="10" fill="#5b9bff"/><rect x="88" y="120" width="10" height="10" fill="#ecc463"/>
-          <rect x="300" y="84" width="46" height="66" fill="#3c414e"/><rect x="308" y="92" width="12" height="12" fill="#5b9bff"/><rect x="326" y="92" width="12" height="12" fill="#ecc463"/><rect x="308" y="114" width="12" height="12" fill="#ecc463"/>
-        </g>
-        <!-- vehicle -->
-        <g stroke="#0b0c10" stroke-width="1.5"><rect x="150" y="168" width="34" height="16" fill="#b5453a"/><rect x="158" y="160" width="18" height="10" fill="#d9dde2"/><circle cx="158" cy="186" r="4" fill="#111"/><circle cx="178" cy="186" r="4" fill="#111"/></g>
-        <!-- trees -->
-        <g stroke="#0b0c10" stroke-width="1.2"><rect x="222" y="122" width="8" height="14" fill="#6b4a2a"/><rect x="214" y="104" width="24" height="20" fill="#3f6b3a"/><rect x="266" y="128" width="7" height="12" fill="#6b4a2a"/><rect x="259" y="112" width="20" height="18" fill="#355f30"/></g>
-        <!-- seed marker -->
-        <g><rect x="30" y="36" width="120" height="30" rx="7" fill="#16213c" stroke="#2a3c66"/><text x="46" y="56" font-family="Archivo Black, sans-serif" font-size="13" fill="#ecc463">SEED ▸ 1337</text></g>
-        <line x1="150" y1="51" x2="252" y2="51" stroke="url(#g-brass)" stroke-width="2" stroke-dasharray="3 4"/>
-        <g><rect x="252" y="36" width="138" height="30" rx="7" fill="#16213c" stroke="#2a3c66"/><text x="266" y="56" font-family="Archivo Black, sans-serif" font-size="12" fill="#f4f1e9">WORLD GENERATED</text></g>
-      </svg>
-      <figcaption class="proc-cap">The worldgen pipeline: seed → terrain → roads → districts → props → play.</figcaption>
-    </figure>
-  </div>
+  <div class="grid maps" id="mapGrid"></div>
+  <p class="note" id="mapsNote"></p>
 </section>
 
-<section id="gallery" class="wrap" hidden>
-  <div class="section-head"><h2>In the field</h2><p class="sub">Captures from the engine.</p></div>
-  <div class="grid shotgrid" id="shotGrid"></div>
-</section>
-
-<section id="manual" class="wrap">
-  <div class="section-head">
-    <h2>Field manual</h2>
-    <p class="sub">Every class, weapon, mode, map and scoring rule in the game.</p>
-  </div>
-  <div class="tabs" id="tabs" role="tablist"></div>
-  <div id="panels">
-    <div class="panel active" data-panel="classes"><div class="grid classes" id="classGrid"></div></div>
-    <div class="panel" data-panel="weapons">
-      <div class="tablewrap"><table id="weaponTable"><thead><tr>
-        <th>Weapon</th><th>Class</th><th>Head</th><th>Body</th><th>Limb</th><th>Rate</th><th>Mag / Total</th><th>Reload</th>
-      </tr></thead><tbody></tbody></table></div>
-    </div>
-    <div class="panel" data-panel="modes"><div class="grid modes" id="modeGrid"></div></div>
-    <div class="panel" data-panel="maps"><div id="mapWrap"></div></div>
-    <div class="panel" data-panel="structures">
-      <div class="tablewrap"><table id="structTable"><thead><tr>
-        <th>Structure</th><th>Class</th><th>Cost</th><th>Strength</th>
-      </tr></thead><tbody></tbody></table></div>
-    </div>
-    <div class="panel" data-panel="scoring"><div class="grid scoregrid" id="scoreGrid"></div></div>
-  </div>
-</section>
-
-<section id="play" class="play">
+<section id="modes" class="modes">
   <div class="wrap">
-    <div class="play-grid">
-      <div>
-        <div class="section-head">
-          <h2>Play</h2>
-          <p class="sub">Project Deuce runs in your browser. The client is being readied for launch, so there is no public play link yet. Join the Discord and you will be first to know when it goes live.</p>
-        </div>
-        <div class="dl" id="downloadGrid"></div>
-      </div>
-      <aside class="official">
-        <span class="badge"><span class="dot"></span> Official servers</span>
-        <h3>One place to play, for now</h3>
-        <p id="serverNote"></p>
-        <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn play-link" data-link="play"><span class="label">Play</span></a>
-          <a class="btn ghost discord-link" data-link="discord"><span class="label">Get notified on Discord</span></a>
-        </div>
-      </aside>
+    <div class="section-head">
+      <h2>Modes</h2>
+      <p class="sub">The modes that exist in the game today. Not every mode runs on every map, and rules change during alpha.</p>
+    </div>
+    <ul class="mode-list" id="modeList"></ul>
+  </div>
+</section>
+
+<section id="servers" class="band">
+  <div class="wrap two-up">
+    <div class="card servers">
+      <span class="badge">Community hosted</span>
+      <h3 id="serversTitle"></h3>
+      <p id="serversBody"></p>
+    </div>
+    <div class="card alpha" id="alpha">
+      <span class="badge">Alpha</span>
+      <h3 id="alphaTitle"></h3>
+      <ul id="alphaPoints"></ul>
     </div>
   </div>
 </section>
 
-<section id="community" class="wrap community">
-  <div class="section-head">
-    <h2>Built in the open</h2>
-    <p class="sub">Follow development, talk with the team, file bugs, or read the code.</p>
-  </div>
-  <div class="cta-row">
-    <a class="btn discord discord-link" data-link="discord">
-      <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5c1.7.4 2.5.9 3.4 1.5a13.3 13.3 0 0 0-10-.4c-.4.1-.7.2-1 .4.9-.6 1.9-1.1 3.4-1.5L10.6 3a19.8 19.8 0 0 0-4.9 1.4C2.5 9.1 1.6 13.7 2 18.3a19.9 19.9 0 0 0 6 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0 0 12 0l.5.4c-.6.4-1.3.7-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.5-5.3-.8-9.9-4.1-13.9ZM9 15.3c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Zm6 0c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.7 2-1.7 2Z"/></svg>
-      <span class="label">Join the Discord</span>
-    </a>
-    <a class="btn ghost" data-link="github">
-      <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2A10 10 0 0 0 8.8 21.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7c-.1-.3-.5-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .6 1.3.2 2.3.1 2.6a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.8v2.6c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
-      <span class="label">GitHub</span>
-    </a>
-  </div>
+<!-- Real gameplay captures only. Stays hidden while DATA.shots is empty. -->
+<section id="gallery" class="wrap" hidden>
+  <div class="section-head"><h2>In the field</h2><p class="sub">Captures from the current build.</p></div>
+  <div class="grid shotgrid" id="shotGrid"></div>
 </section>
 
 <footer>
@@ -463,21 +288,20 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <img src="img/logo.webp" width="170" height="26" alt="Project Deuce" />
-        <p>A class-based voxel FPS on a fully destructible, procedurally generated battlefield.</p>
+        <p>A free-to-play voxel build-and-shoot FPS with fully destructible terrain. Windows. Alpha.</p>
       </div>
       <div class="foot-links">
         <div class="foot-col">
           <h5>Game</h5>
-          <a href="#features">Features</a>
-          <a href="#procedural">Worlds</a>
-          <a href="#manual">Field manual</a>
-          <a href="#play">Play</a>
+          <a href="#game">Game</a>
+          <a href="#maps">Maps</a>
+          <a href="#modes">Modes</a>
+          <a href="#servers">Servers</a>
+          <a href="#alpha">Alpha</a>
         </div>
         <div class="foot-col">
-          <h5>Community</h5>
-          <a class="discord-link" data-link="discord">Discord</a>
-          <a data-link="github">GitHub</a>
-          <a href="https://github.com/VincentRiga/ProjectDeuce/issues">Report a bug</a>
+          <h5>Follow</h5>
+          <span>Coming to Steam. No community links yet — they will appear here when they exist.</span>
         </div>
       </div>
     </div>
